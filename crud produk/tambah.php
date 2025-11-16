@@ -1,10 +1,5 @@
 <?php 
-include 'koneksi.php';
-
-$id_produk = $_GET['id_produk'];
-
-$sql = "SELECT * FROM produk WHERE id_produk = '$id_produk'";
-$query = mysqli_query($koneksi, $sql);
+include '../koneksi.php';
 
 $supplier = "SELECT * FROM supplier";
 $query_supplier = mysqli_query($koneksi, $supplier);
@@ -12,22 +7,18 @@ $query_supplier = mysqli_query($koneksi, $supplier);
 $kategori = "SELECT * FROM kategori";
 $query_kategori = mysqli_query($koneksi, $kategori);
 
-while($produk = mysqli_fetch_assoc($query)){
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Data</title>
+    <title>Tambah poduk</title>
 </head>
 <body>
-    <h1>Edit Data Produk</h1>
-    <form action="proses_edit.php" method="post">
-        <input type="hidden" name="id_produk" value="<?= $produk['id_produk'] ?>">
+    <h1>Tambah Produk</h1>
+    <form action="proses_tambah.php" method="post">
         <label for="">Nama supplier</label><br>
         <select name="id_supplier">
             <?php while($data_supplier = mysqli_fetch_array($query_supplier)){ ?>
@@ -42,21 +33,19 @@ while($produk = mysqli_fetch_assoc($query)){
             <?php } ?>
         </select><br>
 
-        <label for="">Nama Produk</label><br>
-        <input type="text" name="nama_produk" value="<?= $produk['nama_produk'] ?>"><br>
+        <label for="">Nama produk</label><br>
+        <input type="text" name="nama_produk"><br>
 
         <label for="">Stok</label><br>
-        <input type="number" name="stok" value="<?= $produk['stok'] ?>"><br>
+        <input type="number" name="stok"><br>
 
-        <label for="">Harga Beli</label><br>
-        <input type="text" name="harga_beli" value="<?= $produk['harga_beli'] ?>"><br>
+        <label for="">Harga beli</label><br>
+        <input type="text" name="harga_beli"><br>
 
-        <label for="">Harga Jual</label><br>
-        <input type="text" name="harga_jual" value="<?= $produk['harga_jual'] ?>"><br><br>
+        <label for="">Harga jual</label><br>
+        <input type="text" name="harga_jual"><br><br>
 
-        <input type="submit" value="Simpan">
+        <input type="submit" value="Tambah">
     </form>
 </body>
 </html>
-
-<?php } ?>

@@ -1,6 +1,12 @@
 <?php
+session_start();
+include '../koneksi.php';
 
-include 'koneksi.php';
+if(!isset($_SESSION['email'])){
+    header("location:login.php?akses=ditolak");
+    exit;
+}
+
 
 $id_supplier = $_POST['id_supplier'];
 $id_kategori = $_POST['id_kategori'];
@@ -16,7 +22,7 @@ $sql = "INSERT INTO produk(id_supplier, id_kategori, nama_produk, stok, harga_be
 $query = mysqli_query($koneksi, $sql);
 
 if($query){
-    header('location:index.php?tambah=sukses');   
+    header('location:../index.php?tambah=sukses');   
 }else{
     echo "tambah data gagal";   
 }
