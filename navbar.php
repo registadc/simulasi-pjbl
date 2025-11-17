@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
         <div class="container">
 
         <a class="navbar-brand" href="index.php">Admin Dashboard</a>
@@ -29,7 +29,7 @@
             </li>
 
              <li class="nav-item">
-                <a class="nav-link active" href="crud user/user.php">User</a>
+                <a class="nav-link active" href="../crud user/user.php">User</a>
             </li>
 
             <li class="nav-item">

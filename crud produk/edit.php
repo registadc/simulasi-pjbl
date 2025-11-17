@@ -2,67 +2,111 @@
 session_start();
 include '../koneksi.php';
 
-if(!isset($_SESSION['email'])){
+if (!isset($_SESSION['email'])) {
     header("location:login.php?akses=ditolak");
     exit;
 }
-
 
 $id_produk = $_GET['id_produk'];
 
 $sql = "SELECT * FROM produk WHERE id_produk = '$id_produk'";
 $query = mysqli_query($koneksi, $sql);
 
-$supplier = "SELECT * FROM supplier";
-$query_supplier = mysqli_query($koneksi, $supplier);
+$supplier = mysqli_query($koneksi, "SELECT * FROM supplier");
+$kategori = mysqli_query($koneksi, "SELECT * FROM kategori");
 
-$kategori = "SELECT * FROM kategori";
-$query_kategori = mysqli_query($koneksi, $kategori);
-
-while($produk = mysqli_fetch_assoc($query)){
-
+while ($produk = mysqli_fetch_assoc($query)) {
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Data</title>
+    <title>Edit Produk</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body{
+            padding-top: 70px;
+        }
+    </style>
 </head>
-<body>
-    <h1>Edit Data Produk</h1>
-    <form action="proses_edit.php" method="post">
-        <input type="hidden" name="id_produk" value="<?= $produk['id_produk'] ?>">
-        <label for="">Nama supplier</label><br>
-        <select name="id_supplier">
-            <?php while($data_supplier = mysqli_fetch_array($query_supplier)){ ?>
-                <option value="<?php echo $data_supplier['id_supplier']; ?>"><?php echo $data_supplier['nama_supplier']; ?></option>
-            <?php } ?>
-        </select><br>
 
-        <label for="">Nama kategori</label><br>
-        <select name="id_kategori">
-            <?php while($kategori = mysqli_fetch_array($query_kategori)){ ?>
-                <option value="<?php echo $kategori['id_kategori']; ?>"><?php echo $kategori['nama_kategori']; ?></option>
-            <?php } ?>
-        </select><br>
+<body class="bg-white">
 
-        <label for="">Nama Produk</label><br>
-        <input type="text" name="nama_produk" value="<?= $produk['nama_produk'] ?>"><br>
+<?php include '../navbar.php'; ?>
 
-        <label for="">Stok</label><br>
-        <input type="number" name="stok" value="<?= $produk['stok'] ?>"><br>
+<div class="container mt-5" >
+    <div class="row justify-content-center">
+        <div class="col-md-6">
 
-        <label for="">Harga Beli</label><br>
-        <input type="text" name="harga_beli" value="<?= $produk['harga_beli'] ?>"><br>
+            <div class="card shadow-sm">
 
-        <label for="">Harga Jual</label><br>
-        <input type="text" name="harga_jual" value="<?= $produk['harga_jual'] ?>"><br><br>
+                <div class="card-header bg-light text-black text-center">
+                    <h5 class="m-0">Edit Data Produk</h5>
+                </div>
 
-        <input type="submit" value="Simpan">
-    </form>
+                <div class="card-body">
+
+                    <form action="proses_edit.php" method="post">
+                        <input type="hidden" name="id_produk" value="<?= $produk['id_produk'] ?>">
+
+                        <div class="mb-3">
+                            <label class="form-label">Nama Supplier</label>
+                            <select name="id_supplier" class="form-select" required>
+                                <?php while ($sup = mysqli_fetch_assoc($supplier)) { ?>
+                                    <option value="<?= $sup['id_supplier'] ?>"
+                                        <?= ($sup['id_supplier'] == $produk['id_supplier']) ? 'selected' : '' ?>>
+                                        <?= $sup['nama_supplier'] ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nama Kategori</label>
+                            <select name="id_kategori" class="form-select" required>
+                                <?php while ($kat = mysqli_fetch_assoc($kategori)) { ?>
+                                    <option value="<?= $kat['id_kategori'] ?>"
+                                        <?= ($kat['id_kategori'] == $produk['id_kategori']) ? 'selected' : '' ?>>
+                                        <?= $kat['nama_kategori'] ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nama Produk</label>
+                            <input type="text" class="form-control" name="nama_produk" value="<?= $produk['nama_produk'] ?>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Stok</label>
+                            <input type="number" class="form-control" name="stok" value="<?= $produk['stok'] ?>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Harga Beli</label>
+                            <input type="text" class="form-control" name="harga_beli" value="<?= $produk['harga_beli'] ?>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Harga Jual</label>
+                            <input type="text" class="form-control" name="harga_jual" value="<?= $produk['harga_jual'] ?>" required>
+                        </div>
+
+                        <button class="btn btn-primary w-100">Simpan</button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
 
